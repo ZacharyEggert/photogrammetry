@@ -13,10 +13,12 @@ cp "$(swift build -c release --show-bin-path)/Photogrammetry" "$APP/Contents/Mac
 # do the same here so the two build paths can't drift.
 PROJ=Photogrammetry.xcodeproj/project.pbxproj
 BUNDLE_ID=$(sed -n 's/.*PRODUCT_BUNDLE_IDENTIFIER = "\{0,1\}\([^";]*\)"\{0,1\};.*/\1/p' "$PROJ" | head -1)
+VERSION=$(sed -n 's/.*MARKETING_VERSION = \([^;]*\);.*/\1/p' "$PROJ" | head -1)
 ICON=$(sed -n 's/.*ASSETCATALOG_COMPILER_APPICON_NAME = "\{0,1\}\([^";]*\)"\{0,1\};.*/\1/p' "$PROJ" | head -1)
 DEPLOY=$(sed -n 's/.*MACOSX_DEPLOYMENT_TARGET = \([0-9.]*\);.*/\1/p' "$PROJ" | head -1)
 
-sed "s|\$(PRODUCT_BUNDLE_IDENTIFIER)|$BUNDLE_ID|" Info.plist > "$APP/Contents/Info.plist"
+sed -e "s|\$(PRODUCT_BUNDLE_IDENTIFIER)|$BUNDLE_ID|" \
+    -e "s|\$(MARKETING_VERSION)|$VERSION|" Info.plist > "$APP/Contents/Info.plist"
 
 xcrun actool "Resources/$ICON.icon" \
     --compile "$APP/Contents/Resources" \
@@ -34,5 +36,12 @@ for KEY in CFBundleIconFile CFBundleIconName; do
 done
 rm -f "$APP/Contents/Resources/.icon.plist"
 
-codesign --force --sign - "$APP"
+# ponytail: ad-hoc by default so local builds need no certificate; the release workflow
+# sets CODESIGN_IDENTITY to a Developer ID, which also needs the hardened runtime and a
+# secure timestamp to pass notarization.
+if [ "${CODESIGN_IDENTITY:--}" = "-" ]; then
+    codesign --force --sign - "$APP"
+else
+    codesign --force --options runtime --timestamp --sign "$CODESIGN_IDENTITY" "$APP"
+fi
 echo "built $APP"
