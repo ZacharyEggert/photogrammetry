@@ -4,10 +4,6 @@
 <dict>
 	<key>CFBundleExecutable</key>
 	<string>Photogrammetry</string>
-	<!-- SwiftPM build only; the Xcode build compiles Resources/Appicon.icon and injects
-	     its own CFBundleIconFile/CFBundleIconName over these. -->
-	<key>CFBundleIconFile</key>
-	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleName</key>

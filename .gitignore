@@ -1,7 +1,6 @@
 .build/
 .swiftpm/
 Photogrammetry.app/
-icon-1024.png
 *.usdz
 xcuserdata/
 DerivedData/
