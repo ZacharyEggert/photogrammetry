@@ -12,7 +12,7 @@ struct PhotogrammetryApp: App {
     }
 
     var body: some SwiftUI.Scene {
-        WindowGroup("Photogrammetry") {
+        WindowGroup("Photogrammetry Utility") {
             ContentView().frame(minWidth: 460, minHeight: 470)
         }
         .windowResizability(.contentMinSize)
