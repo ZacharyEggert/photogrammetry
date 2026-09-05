@@ -10,6 +10,7 @@ swift tools/makeicon.swift
 mkdir -p "$APP/Contents/Resources"
 cp Resources/AppIcon.icns "$APP/Contents/Resources/"
 # Xcode expands $(PRODUCT_BUNDLE_IDENTIFIER); do the same here.
-sed 's|$(PRODUCT_BUNDLE_IDENTIFIER)|com.zachary.photogrammetry|' Info.plist > "$APP/Contents/Info.plist"
+BUNDLE_ID=$(sed -n 's/.*PRODUCT_BUNDLE_IDENTIFIER = "\{0,1\}\([^";]*\)"\{0,1\};.*/\1/p' Photogrammetry.xcodeproj/project.pbxproj | head -1)
+sed "s|\$(PRODUCT_BUNDLE_IDENTIFIER)|$BUNDLE_ID|" Info.plist > "$APP/Contents/Info.plist"
 codesign --force --sign - "$APP"
 echo "built $APP"
