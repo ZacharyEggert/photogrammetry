@@ -5,3 +5,4 @@ icon-1024.png
 *.usdz
 xcuserdata/
 DerivedData/
+.DS_Store
