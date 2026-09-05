@@ -9,6 +9,7 @@ cp "$(swift build -c release --show-bin-path)/Photogrammetry" "$APP/Contents/Mac
 swift tools/makeicon.swift
 mkdir -p "$APP/Contents/Resources"
 cp Resources/AppIcon.icns "$APP/Contents/Resources/"
-cp Info.plist "$APP/Contents/Info.plist"
+# Xcode expands $(PRODUCT_BUNDLE_IDENTIFIER); do the same here.
+sed 's|$(PRODUCT_BUNDLE_IDENTIFIER)|com.zachary.photogrammetry|' Info.plist > "$APP/Contents/Info.plist"
 codesign --force --sign - "$APP"
 echo "built $APP"
