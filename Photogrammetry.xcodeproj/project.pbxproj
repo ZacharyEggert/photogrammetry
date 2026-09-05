@@ -172,7 +172,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Photogrammetry;
+				INFOPLIST_KEY_CFBundleDisplayName = "Photogrammetry Utility";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
@@ -193,7 +193,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Photogrammetry;
+				INFOPLIST_KEY_CFBundleDisplayName = "Photogrammetry Utility";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
