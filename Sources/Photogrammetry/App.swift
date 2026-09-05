@@ -29,19 +29,21 @@ final class Model {
 
     func run(detail: PhotogrammetrySession.Request.Detail) async {
         guard let input = imagesURL else { return }
+        // Detail in the name so re-runs at another scale don't collide.
         let output = input.deletingLastPathComponent()
-            .appendingPathComponent(input.lastPathComponent + ".usdz")
+            .appendingPathComponent("\(input.lastPathComponent)-\(detail).usdz")
         running = true; progress = 0; outputURL = nil
         defer { running = false }
         do {
             let session = try PhotogrammetrySession(input: input)
             try session.process(requests: [.modelFile(url: output, detail: detail)])
-            for try await out in session.outputs {
+            outputs: for try await out in session.outputs {
                 switch out {
                 case .requestProgress(_, let f): progress = f; status = "Processing…"
                 case .requestComplete: outputURL = output; status = "Done: \(output.path)"
                 case .requestError(_, let e): status = "Error: \(e.localizedDescription)"
-                case .processingComplete, .invalidSample, .skippedSample, .automaticDownsampling: break
+                // Terminal: the stream stays open otherwise and the UI never re-enables.
+                case .processingComplete: break outputs
                 default: break
                 }
             }
