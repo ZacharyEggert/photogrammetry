@@ -1,5 +1,5 @@
 // ponytail: draws the icon in AppKit instead of shipping a designer asset.
-// Run: swift tools/makeicon.swift  -> Photogrammetry.icns
+// Run from build-app.sh once Photogrammetry.app/Contents/Resources exists.
 import AppKit
 
 let canvas = 1024.0, inset = 100.0, radius = 185.0
@@ -44,6 +44,6 @@ for (px, name) in [(16,"16x16"),(32,"16x16@2x"),(32,"32x32"),(64,"32x32@2x"),(12
 }
 let icnsProc = Process()
 icnsProc.launchPath = "/usr/bin/iconutil"
-icnsProc.arguments = ["-c", "icns", "icon.iconset", "-o", "Resources/AppIcon.icns"]
+icnsProc.arguments = ["-c", "icns", "icon.iconset", "-o", "Photogrammetry.app/Contents/Resources/AppIcon.icns"]
 try icnsProc.run(); icnsProc.waitUntilExit()
 try? fm.removeItem(atPath: "icon.iconset")
